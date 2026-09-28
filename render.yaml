@@ -2,23 +2,15 @@ services:
   - type: web
     name: infratrack-backend
     env: python
+    plan: free
     buildCommand: "cd backend && pip install -r requirements.txt"
     startCommand: "cd backend && uvicorn app.main:app --host 0.0.0.0 --port $PORT"
     envVars:
       - key: PYTHON_VERSION
         value: 3.10.0
-      - key: DATABASE_URL
-        fromDatabase:
-          name: infratrack-db
-          property: connectionString
       - key: SECRET_KEY
         generateValue: true
       - key: ALGORITHM
         value: HS256
       - key: ACCESS_TOKEN_EXPIRE_MINUTES
         value: 1440
-
-databases:
-  - name: infratrack-db
-    databaseName: infratrack
-    user: infratrack_user
